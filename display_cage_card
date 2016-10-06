@@ -1,0 +1,88 @@
+! /usr/bin/perl
+
+# display_cage_card.pl
+
+# Display radio button::: Birthing or Regular
+# Read lamTxtFile. Display button containing cage number, room, specie and APN.
+
+# Show contents of a cage card after it has been printed.  
+# [ You know that some people feel comfortable if they can see a display of printed items. ]
+
+
+use CGI qw(:standard);
+use Time::localtime;
+
+# read lamTxtFile.txt
+
+
+$file3  = 'lamTxtFile.txt';         # File resides in /var/www/html.
+open (FILE3, "< $file3")  || die "Can't open $file3: $!";
+@animal_info = <FILE3>;
+close (FILE3);
+
+$j=@animal_info;
+
+@dl = ();
+
+for ($r=0; $r<=$j; $r++)
+{
+  $cage_record_in = @animal_info[$r];
+  chomp($cage_record_in);           
+
+  # Extract values from record
+  ($cage_num, $room_num, $investigator,$co_investigator, $specie,
+   $strain, $sex, $animal_id, $count_num, $rec_date,$apn_num,$cost_code,
+   $vendor_code, $rate_level, $IEB_timestamp, 
+   $ops1, $ops2, $ops3, $ops4, $ops5, $cage_type) = split(/\|/,$cage_record_in);
+
+  # Build a table row
+  $c4 = '';
+  $c5 = '';
+  $c6 = '';
+  $c7 = '';
+  $c1 = "<TR><TD> <INPUT type=SUBMIT value='$cage_num' name='cage_num'></TD>";
+  $c2 =     "<TD>$room_num</TD>";
+  $c3 =     "<TD>&nbsp\;$specie</TD>";
+#  $c4 =     "<TD size ='30'>$strain</TD>";
+  $c5 =     "<TD>&nbsp\;$apn_num</TD></TR>";
+#  $c6 =     "<TD>$cost_code</TD>";
+#  $c7 =     "<TD>$investigator</TD></TR>";
+  $record = join(' ',$c1,$c2,$c3,$c4,$c5,$c6,$c7);
+   @dl[$r] = $record;
+
+
+#  @dl[$line] = $record;
+} # end foreach
+
+print "Content-type: text/html\n\n";
+print <<EOL 
+  <HTML>
+  <HEAD>
+  </HEAD>
+  <BODY>
+  <FORM name='x' action='print_card.pl' method='get'>
+  <INPUT type='radio' name='bg' value = 'b'> Birthing Cage
+  <BR>
+  <INPUT type='radio' name='bg' value = 'g' checked > Cage
+  <HR>
+  <TABLE>
+EOL
+;
+
+
+for($i=0; $i<=$j; $i++)
+{
+  print <<EOL
+@dl[$i]
+EOL
+
+;
+}
+print <<EOL
+</TABLE>
+</FORM>
+</BODY>
+</HTML>
+EOL
+
+;
