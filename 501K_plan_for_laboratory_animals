@@ -1,0 +1,19 @@
+ID              [Animal Id number]
+Grant_Number    [Who pays the cage bill?]
+Start_date_of_grant 
+Species
+Sex
+Providor_information
+   Date_of_animal_arrival
+   Vendor Name
+   Vendor Code           [ IMPORTANT.  This is the link to info info.  It could be a subdivsion of the Vendor Nane. ]
+   Requisition Number
+   Purchase Order Number [ Will be used for lookup of purchase price ]
+   Condition of animal upon arrival
+   Destination of animal after grant expire date   [ Transfer to another Grant_number, Keep it as an office pet, E ]
+ End date of grant
+ Do we keep the animal when grant expires?   [ Sometimes there is a delay in continuing a grant ]
+ Previous_Provider_information
+   Sequence Number of previous providor information
+   Copy of Providor_information [listed above]
+ 
